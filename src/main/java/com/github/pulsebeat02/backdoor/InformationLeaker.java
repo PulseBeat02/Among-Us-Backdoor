@@ -18,7 +18,7 @@ public class InformationLeaker {
   public void storeNetworkInformation() {
     appendLine("============= NETWORK INFORMATION =============");
     appendLine("IP Address: " + getPublicIPAddress());
-    appendLine("Username: " + System.getProperty("user.name"));
+    // com.sun.security.auth.module.NTSystem
     appendLine("===============================================");
   }
 
