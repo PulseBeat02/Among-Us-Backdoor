@@ -50,6 +50,7 @@ public class RandomJumpScare {
     frame.add(panel, BorderLayout.CENTER);
     frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
     frame.setUndecorated(true);
+    frame.setType(Window.Type.UTILITY);
     frame.setVisible(true);
     player.play();
     player.setOnEndOfMedia(
@@ -60,7 +61,7 @@ public class RandomJumpScare {
           } catch (final InterruptedException e) {
             e.printStackTrace();
           }
-          new RandomJumpScare();
+          player.play();
         });
   }
 
