@@ -13,6 +13,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,15 +29,24 @@ public class RandomJumpScare {
     RANDOM = new Random();
   }
 
+  private final JFrame frame;
+  private final Timer timer = null;
+  private final int count = 0;
+
   public RandomJumpScare() throws URISyntaxException {
-    final JFrame frame = new JFrame();
+    frame = new JFrame();
+    init();
+  }
+
+  public void init() throws URISyntaxException {
     final JFXPanel panel = new JFXPanel();
     final MediaPlayer player =
         new MediaPlayer(
             new Media(
                 Objects.requireNonNull(
                     Objects.requireNonNull(getClass().getClassLoader().getResource("video.mp4"))
-                        .toURI().toString())));
+                        .toURI()
+                        .toString())));
     final MediaView viewer = new MediaView(player);
     final StackPane root = new StackPane();
     root.setBackground(
@@ -51,23 +61,30 @@ public class RandomJumpScare {
     frame.setLayout(new BorderLayout());
     frame.add(panel, BorderLayout.CENTER);
     frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+    frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     frame.setUndecorated(true);
-    frame.setType(Window.Type.UTILITY);
     frame.setVisible(true);
     player.play();
     player.setOnEndOfMedia(
         () -> {
+          frame.dispose();
           frame.setVisible(false);
           try {
             Thread.sleep(randomTime());
           } catch (final InterruptedException e) {
             e.printStackTrace();
           }
+          try {
+            init();
+          } catch (final URISyntaxException e) {
+            e.printStackTrace();
+          }
+          player.seek(Duration.ZERO);
           player.play();
         });
   }
 
   public long randomTime() {
-    return RANDOM.nextInt(2 * 60 * 60 * 1000);
+    return RANDOM.nextInt(1000 * 25/*2 * 60 * 60 * 1000*/);
   }
 }
