@@ -23,7 +23,7 @@ public class AppearanceChanger {
 
   public AppearanceChanger() {
     sound = true;
-    setWallpaper();
+    // setWallpaper();
     playSound();
   }
 

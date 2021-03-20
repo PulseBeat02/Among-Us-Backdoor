@@ -22,7 +22,6 @@ public class FileUtilities {
   public static void copyInputStreamToFile(final InputStream input, final File file) {
     try {
       final byte[] buffer = new byte[input.available()];
-      System.out.println(input.read(buffer));
       final OutputStream outStream = new FileOutputStream(file);
       outStream.write(buffer);
     } catch (final IOException e) {
