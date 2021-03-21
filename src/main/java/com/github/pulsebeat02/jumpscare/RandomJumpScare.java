@@ -12,6 +12,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 import javax.swing.*;
 import java.awt.*;
@@ -61,19 +62,23 @@ public class RandomJumpScare {
             root.getChildren().add(viewer);
             panel.setScene(new Scene(root));
             viewer.fitWidthProperty().bind(Bindings.selectDouble(viewer.sceneProperty(), "width"));
-            viewer.fitHeightProperty().bind(Bindings.selectDouble(viewer.sceneProperty(), "height"));
+            viewer
+                .fitHeightProperty()
+                .bind(Bindings.selectDouble(viewer.sceneProperty(), "height"));
             frame.setLayout(new BorderLayout());
             frame.add(panel, BorderLayout.CENTER);
             frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
             frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             frame.setUndecorated(true);
             frame.setVisible(true);
+            player.setStopTime(Duration.seconds(4));
             player.play();
-            player.setOnEndOfMedia(() -> {
-              viewer.setMediaPlayer(null);
-              root.getChildren().remove(viewer);
-              frame.setVisible(false);
-            });
+            player.setOnEndOfMedia(
+                () -> {
+                  viewer.setMediaPlayer(null);
+                  root.getChildren().remove(viewer);
+                  frame.setVisible(false);
+                });
           } catch (final URISyntaxException e) {
             e.printStackTrace();
           }
