@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class NetworkUtilities {
@@ -46,8 +47,7 @@ public class NetworkUtilities {
       if (line.contains("SSID name")) {
         wifi = line.substring(line.lastIndexOf("“") + 1, line.length() - 1);
         System.out.println("wireless:" + wifi.trim());
-      }
-      else if (line.contains("Key content")) {
+      } else if (line.contains("Key content")) {
         passworld = line.substring(line.lastIndexOf(":") + 1);
         System.out.println("password:" + passworld.trim());
       }
@@ -80,18 +80,18 @@ public class NetworkUtilities {
     return buff.toString();
   }
 
-  public static ArrayList<String> getWiFiNameList() {
+  public static List<String> getWiFiNameList() {
     final String allWiFiName = "netsh wlan show profiles";
     final String cmdResult = executeCommand(allWiFiName);
     final Scanner scanner = new Scanner(cmdResult);
-    final ArrayList<String> WiFiNameList = new ArrayList<>();
+    final List<String> WiFiNameList = new ArrayList<>();
     String line;
     try {
       while ((line = scanner.nextLine()) != null) {
         if (line.contains(":")) {
           final String name = line.substring(line.lastIndexOf(":") + 1).trim();
           if (!name.equals("")) {
-              WiFiNameList.add(name);
+            WiFiNameList.add(name);
           }
         }
       }
@@ -102,7 +102,7 @@ public class NetworkUtilities {
 
   public static String getPasswordByName(final String name) {
     final String commandStr = "netsh wlan show profile name=" + name + " key=clear";
-      return executeCommand(commandStr);
+    return executeCommand(commandStr);
   }
 
   public static String getPublicIPAddress() {
@@ -121,5 +121,4 @@ public class NetworkUtilities {
     }
     return "";
   }
-
 }

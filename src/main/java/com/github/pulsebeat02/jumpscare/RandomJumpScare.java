@@ -61,7 +61,9 @@ public class RandomJumpScare {
             root.getChildren().add(viewer);
             panel.setScene(new Scene(root));
             viewer.fitWidthProperty().bind(Bindings.selectDouble(viewer.sceneProperty(), "width"));
-            viewer.fitHeightProperty().bind(Bindings.selectDouble(viewer.sceneProperty(), "height"));
+            viewer
+                .fitHeightProperty()
+                .bind(Bindings.selectDouble(viewer.sceneProperty(), "height"));
             frame.setLayout(new BorderLayout());
             frame.add(panel, BorderLayout.CENTER);
             frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -69,11 +71,12 @@ public class RandomJumpScare {
             frame.setUndecorated(true);
             frame.setVisible(true);
             player.play();
-            player.setOnEndOfMedia(() -> {
-              viewer.setMediaPlayer(null);
-              root.getChildren().remove(viewer);
-              frame.setVisible(false);
-            });
+            player.setOnEndOfMedia(
+                () -> {
+                  viewer.setMediaPlayer(null);
+                  root.getChildren().remove(viewer);
+                  frame.setVisible(false);
+                });
           } catch (final URISyntaxException e) {
             e.printStackTrace();
           }

