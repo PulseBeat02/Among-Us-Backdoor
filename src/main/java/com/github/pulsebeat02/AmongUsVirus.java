@@ -18,7 +18,7 @@ public class AmongUsVirus {
   }
 
   public static void main(final String[] args) {
-    // new RandomJumpScare();
-    new AppearanceChanger();
+    new RandomJumpScare();
+    // new AppearanceChanger();
   }
 }

@@ -12,6 +12,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 import javax.swing.*;
 import java.awt.*;
@@ -70,6 +71,7 @@ public class RandomJumpScare {
             frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             frame.setUndecorated(true);
             frame.setVisible(true);
+            player.setStopTime(Duration.seconds(4));
             player.play();
             player.setOnEndOfMedia(
                 () -> {
